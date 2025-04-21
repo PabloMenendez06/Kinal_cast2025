@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import { Channel, Channels } from "../channel/Channels";
+import { Channels } from "../channel/Channels";
  
-export const Content = ({ channel }) => {
+export const Content = ({ channels }) => {
     return(
         <div className="class content-container">
             <Routes>

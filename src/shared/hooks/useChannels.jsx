@@ -2,26 +2,29 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { getChannels as getChannelsRequest, getFollowedChannels } from "../../services/api";
 
-export const useChannels = () =>{
-    const [channels,setChannels] = useState(null)
+export const useChannels = () => {
 
-    const getChannels = async (isLoged = false) =>{
+    const [ channels, setChannels ] = useState(null)
+
+    const getChannels = async (isLogged = false) => {
+
         const channelsData = await getChannelsRequest()
 
-        if (channelsData.error) {
+        if(channelsData.error){
             return toast.error(
                 channelsData.e?.response?.data || 'Ocurrio un error al leer los canales'
             )
         }
-        if (!isLoged) {
+
+        if(!isLogged){
             return setChannels({
                 channels: channelsData.data.channels
-            })
+            });
         }
 
         const followedChannelsData = await getFollowedChannels();
 
-        if (followedChannelsData.error) {
+        if(followedChannelsData.error){
             return toast.error(
                 channelsData.e?.response?.data || 'Ocurrio un error al leer los canales que sigues'
             )
@@ -29,10 +32,10 @@ export const useChannels = () =>{
 
         setChannels({
             channels: channelsData.data.channels,
-            followedChannelsData: channelsData.data.channels.filter(channel =>
+            followedChannels: channelsData.data.channels.filter( channel =>
                 followedChannelsData.data.followedChannels.includes(channel.id)
             )
-        })
+        });
     }
 
     return {
@@ -41,5 +44,4 @@ export const useChannels = () =>{
         allChannels: channels?.channels,
         followedChannels: channels?.followedChannels
     }
-
 }
